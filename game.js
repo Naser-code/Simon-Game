@@ -3,11 +3,16 @@ var buttonColours = ["red", "blue", "green", "yellow"];
 var userClickedPattern = [];
 var level = 0;
 var started = false;
+var highScore = localStorage.getItem("highScore") || 0;  // Retrieve high score from localStorage or set to 0
+
+// Display the high score when the game loads
+$("h2").text("High Score: " + highScore);
 
 function nextSequence() {
     userClickedPattern = [];
     level++;
     $("h1").text("Level " + level);
+
     var randomNumber = Math.floor(Math.random() * 4);
     var randomChosenColour = buttonColours[randomNumber];
     gamePattern.push(randomChosenColour);
@@ -65,6 +70,14 @@ function checkAnswer(currentLevel) {
             $("body").removeClass("game-over");
         }, 200);
         $("h1").text("Game Over, Press Any Key to Restart");
+
+        // Check and update the high score
+        if (level > highScore) {
+            highScore = level - 1; // -1 because level is incremented before the game ends
+            localStorage.setItem("highScore", highScore);
+            $("h2").text("High Score: " + highScore);  // Update high score display
+        }
+
         startOver();
     }
 }

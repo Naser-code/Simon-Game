@@ -8,11 +8,13 @@ var highScore = localStorage.getItem("highScore") || 0;  // Retrieve high score 
 // Display the high score when the game loads
 $("h2").text("High Score: " + highScore);
 
+// Detect whether the user is on a mobile device
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 function nextSequence() {
     userClickedPattern = [];
     level++;
     $("h1").text("Level " + level);
-
     var randomNumber = Math.floor(Math.random() * 4);
     var randomChosenColour = buttonColours[randomNumber];
     gamePattern.push(randomChosenColour);
@@ -28,12 +30,23 @@ function startGame() {
     }
 }
 
-// Detecting touchstart for mobile and mousedown for desktop
-$(document).on("keydown touchstart mousedown", function() {
-    startGame();
-});
+// Detecting events for starting the game
+if (isMobile) {
+    // On mobile, use touch events
+    $(document).on("touchstart", function() {
+        startGame();
+    });
+} else {
+    // On desktop, use keydown and mousedown
+    $(document).on("keydown mousedown", function() {
+        startGame();
+    });
+}
 
-$(".btn").on("click touchstart", function() {
+// Button click/touch detection for both mobile and desktop
+$(".btn").on("click touchstart", function(e) {
+    e.preventDefault();  // Prevent default behavior on mobile (like scrolling)
+
     var userChosenColour = $(this).attr("id");
     userClickedPattern.push(userChosenColour);
     playSound(userChosenColour);

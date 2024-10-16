@@ -4,11 +4,11 @@ var userClickedPattern = [];
 var level = 0;
 var started = false;
 var highScore = localStorage.getItem("highScore") || 0;  // Retrieve high score from localStorage or set to 0
+var volumeLevel = 0.5;  // Set the default volume level (0.0 to 1.0)
 
 // Display the high score when the game loads
 $("h2").text("High Score: " + highScore);
 
-// Detect whether the user is on a mobile device
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 function nextSequence() {
@@ -32,18 +32,15 @@ function startGame() {
 
 // Detecting events for starting the game
 if (isMobile) {
-    // On mobile, use touch events
     $(document).on("touchstart", function() {
         startGame();
     });
 } else {
-    // On desktop, use keydown and mousedown
     $(document).on("keydown mousedown", function() {
         startGame();
     });
 }
 
-// Button click/touch detection for both mobile and desktop
 $(".btn").on("click touchstart", function(e) {
     e.preventDefault();  // Prevent default behavior on mobile (like scrolling)
 
@@ -54,8 +51,10 @@ $(".btn").on("click touchstart", function(e) {
     checkAnswer(userClickedPattern.length - 1);
 });
 
+// Function to play sounds with adjustable volume
 function playSound(name) {
     var aud = new Audio("sounds/" + name + ".mp3");
+    aud.volume = 0.1;
     aud.play();
 }
 
@@ -68,15 +67,14 @@ function animatePress(currentColour) {
 
 function checkAnswer(currentLevel) {
     if (userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
-        console.log("Success");
         if (userClickedPattern.length === gamePattern.length) {
             setTimeout(function() {
                 nextSequence();
             }, 1000);
         }
     } else {
-        console.log("Wrong");
         var aud1 = new Audio("sounds/wrong.mp3");
+        aud1.volume = 0.1;
         aud1.play();
         $("body").addClass("game-over");
         setTimeout(function() {
@@ -84,11 +82,10 @@ function checkAnswer(currentLevel) {
         }, 200);
         $("h1").text("Game Over, Press Any Key to Restart");
 
-        // Check and update the high score
         if (level > highScore) {
-            highScore = level - 1; // -1 because level is incremented before the game ends
+            highScore = level - 1;
             localStorage.setItem("highScore", highScore);
-            $("h2").text("High Score: " + highScore);  // Update high score display
+            $("h2").text("High Score: " + highScore);
         }
 
         startOver();

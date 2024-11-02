@@ -1,35 +1,84 @@
-body {
-  text-align: center;
+/* Global styles */
+* {
+  user-select: none; /* Prevents text selection */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Prevent scrolling */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: #011F3F;
 }
 
+/* Heading styles */
 .level-title {
   font-family: 'Press Start 2P', cursive;
   font-size: 2.5rem;
-  margin: 5%;
+  margin: 1.5rem 0;
   color: #FEF2BF;
+  max-width: 80%; /* Limit width */
+  text-align: center;
 }
 
+/* Container for game buttons */
 .container {
-  display: block;
-  width: 50%;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 
+/* Row of buttons in the game */
+.row {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+/* Game buttons */
 .btn {
-  margin: 25px;
-  display: inline-block;
-  height: 200px;
-  width: 200px;
-  border: 10px solid black;
+  margin: 1rem;
+  height: 10rem;
+  width: 10rem;
+  border: 0.5rem solid black;
   border-radius: 20%;
+  cursor: pointer;
 }
 
-.game-over {
-  background-color: red;
-  opacity: 0.8;
+/* Difficulty buttons */
+.difficulty-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 1rem 0;
 }
 
+.difficulty-btn {
+  background-color: #FEF2BF;
+  border: 0.125rem solid #000;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-family: 'Press Start 2P', cursive;
+  color: #011F3F;
+}
+
+/* Highlight for selected difficulty */
+.selected-difficulty {
+  background-color: #FFD700;
+  border: 0.125rem solid #FFF;
+  color: #011F3F;
+}
+
+/* Colors for game buttons */
 .red {
   background-color: red;
 }
@@ -46,39 +95,88 @@ body {
   background-color: yellow;
 }
 
+/* Flashing effect for button clicks */
 .pressed {
-  box-shadow: 0 0 20px white;
+  box-shadow: 0 0 1rem white;
   background-color: grey;
 }
 
+/* Game over animation */
+.game-over {
+  background-color: #ff0000 !important;
+  transition: background-color 0.2s ease;
+}
+
+/* Responsive layout for screens smaller than 768px */
 @media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+
   .container {
     width: 80%;
+    padding: 1rem;
   }
 
   .btn {
-    height: 150px;
-    width: 150px;
-    margin: 20px;
+    height: 7.5rem;
+    width: 7.5rem;
+    margin: 0.5rem;
   }
 
-  #level-title {
-    font-size: 2.5rem;
+  .level-title {
+    font-size: 2rem;
+    margin: 0.5rem 0;
+    max-width: 90%;
+  }
+
+  .difficulty-btn {
+    font-size: 1.25rem;
   }
 }
 
+/* Mobile-specific layout for screens smaller than 480px */
 @media (max-width: 480px) {
+  html, body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align everything towards the top */
+    overflow: hidden;
+  }
+
+  /* Stack elements vertically for mobile */
+  .level-title {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    max-width: 90%;
+  }
+
+  .difficulty-buttons {
+    flex-direction: row; /* Display difficulty buttons in a row */
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
   .container {
     width: 100%;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
+  /* Smaller game buttons */
   .btn {
-    height: 100px;
-    width: 100px;
-    margin: 15px;
+    height: 5.5rem;
+    width: 5.5rem;
+    margin: 0.3rem;
   }
 
-  #level-title {
-    font-size: 2rem;
+  .difficulty-btn {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+    margin: 0.3rem;
   }
 }
